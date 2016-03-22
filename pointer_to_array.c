@@ -39,7 +39,7 @@ int main (int argc, char *argv[]) {
 
     pointer_to_array = &array;
 
-    /**  <CONCLUSION> Double Pointer = Array of Pointer != Pointer to Array  **/
+    /**  <CONCLUSION 1> Double Pointer = Array of Pointer != Pointer to Array  **/
     foo(double_pointer);
     foo(array_of_pointer);
     //  foo(pointer_to_array);              //  <GCC ERROR> note: expected ‘char **’ but argument is of type ‘char (*)[4]’
@@ -59,5 +59,14 @@ int main (int argc, char *argv[]) {
     wow(pointer_to_array);
     wow(pointer_to_nosize_array);
 
+
+    /**  <CONCLUSION 2> Pointer != Array    **/
+    pointer += 2;
+    pointer_to_array += 2;
+    //  pointer_to_nosize_array += 2;       //  <GCC ERROR> error: invalid use of array with unspecified bounds
+    //  *pointer_to_array += 2;             //  <GCC ERROR> error: invalid operands to binary + (have ‘char[4]’ and ‘int’)
+    //  array += 2;                         //  <GCC ERROR> error: invalid operands to binary + (have ‘char[4]’ and ‘int’)
+    *array_of_pointer += 2;
+    
     return 0;
 }
