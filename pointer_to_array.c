@@ -66,7 +66,7 @@ int main (int argc, char *argv[]) {
     //  pointer_to_nosize_array += 2;       //  <GCC ERROR> error: invalid use of array with unspecified bounds
     //  *pointer_to_array += 2;             //  <GCC ERROR> error: invalid operands to binary + (have ‘char[4]’ and ‘int’)
     //  array += 2;                         //  <GCC ERROR> error: invalid operands to binary + (have ‘char[4]’ and ‘int’)
-    *array_of_pointer += 2;
+    //  array_of_pointer += 2;              //  <GCC ERROR> error: invalid operands to binary + (have ‘char[4]’ and ‘int’)
     
     return 0;
 }
