@@ -29,7 +29,8 @@ int main (int argc, char *argv[]) {
     char **double_pointer;
     char *array_of_pointer[4];              //  Array of pointers (char *)
     char (*pointer_to_array)[4];            //  Pointer of array (char [])
-    //  char *wrong_array_of_pointer[];     //  <GCC ERROR> error: array size missing in ‘ptr_arr’
+    //  char *nosize_array_of_pointer[];     //  <GCC ERROR> error: array size missing in ‘ptr_arr’
+    char (*pointer_to_nosize_array)[];
 
     array_of_pointer[0] = &a;
     array_of_pointer[1] = &b;
@@ -42,6 +43,7 @@ int main (int argc, char *argv[]) {
     foo(double_pointer);
     foo(array_of_pointer);
     //  foo(pointer_to_array);              //  <GCC ERROR> note: expected ‘char **’ but argument is of type ‘char (*)[4]’
+    //  foo(pointer_to_nosize_array);       //  <GCC ERROR> expected ‘char **’ but argument is of type ‘char (*)[]’
 
     bar(double_pointer);
     bar(array_of_pointer);
@@ -50,10 +52,12 @@ int main (int argc, char *argv[]) {
     //  hoo(double_pointer);                //  <GCC ERROR> note: expected ‘char (*)[]’ but argument is of type ‘char **’
     //  hoo(array_of_pointer);              //  <GCC ERROR> note: expected ‘char (*)[]’ but argument is of type ‘char **’
     hoo(pointer_to_array);
+    hoo(pointer_to_nosize_array);
  
     //  wow(double_pointer);                //  <GCC ERROR> note: expected ‘char (*)[4]’ but argument is of type ‘char **’
     //  wow(array_of_pointer);              //  <GCC ERROR> note: expected ‘char (*)[4]’ but argument is of type ‘char **’
     wow(pointer_to_array);
+    wow(pointer_to_nosize_array);
 
     return 0;
 }
