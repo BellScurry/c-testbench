@@ -3,8 +3,8 @@
 
 int main (int argc ,char *argv[]) {
 
-    const int32_t C1 = 0xa1b2c3d4;
-    const uint32_t C2 = 0xa1b2c3d4;
+    const int32_t C1 = 0xa1b2c3d4, C3 = 0xa4d1;
+    const uint32_t C2 = 0xa1b2c3d4, C4 = 0xa4d1;
     const char *hexstring_without0x = "e5f6";
     const char *hexstring_with0x = "0xe5f6";
     int16_t int16;
@@ -18,6 +18,10 @@ int main (int argc ,char *argv[]) {
     printf("Print uint32_t C2: %" PRIu32 "\n", C2);
     printf("Print uint32_t C2 in hex with upper case: %" PRIX32 "\n", C2); 
     printf("Print uint32_t C2 in hex with lower case: %" PRIx32 "\n", C2); 
+
+    printf("Print int32_t C3 with, \"\%08\" PRIi32: %08" PRIi32 "\n", C3);
+    printf("Print int32_t C3 with, \"\%8\" PRIX32: %8" PRIX32 "\n", C3); 
+    printf("Print int32_t C3 with, \"\%\" PRIx32: : %" PRIx32 "\n", C3); 
 
     /** Test 'scanf' Support.   **/
     printf("Scan hex string 'e5f6' in int16_t: ");
