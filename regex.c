@@ -96,12 +96,12 @@ int main (int argc, char *argv[]) {
         /* strncpy() will not null-terminate if tmp is not large enough. */
         strncpy(tmp, &target[subex[i].rm_so], length);
 
-        printf("$%d: %d~%d, %s", i, subex[i].rm_so, subex[i].rm_eo - 1, tmp);
+        printf("$%d: byte %d ~ byte %d, %s", i, subex[i].rm_so, subex[i].rm_eo - 1, tmp);
 
         if (i == 0)
             printf(" (%s)\n", "Matched Part");
         else
-            printf(" (%s \\%d)\n", "Subexpression", i);
+            printf(" (%s \\%d)\n", "Parenthesised Subexpression", i);
 
         free(tmp);
     }
