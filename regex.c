@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <regex.h>
 
 int main (int argc, char *argv[]) {
@@ -6,12 +8,17 @@ int main (int argc, char *argv[]) {
     char *pattern;
     regex_t regex;              //  Compiled regex.
     char *target;
-    int compile_status;
+    int regcomp_status;
+    int regexec_status;
     char error_message[8];
     int cflags = 0;
     int eflags = 0;
-    const int nmatch = 2;      //  Number of parenthesised subexpressions.
+    const int nmatch = 10;      //  Number of parenthesised subexpressions.
     regmatch_t subex[nmatch];   //  Array of parenthesised subexpressions.
+
+    int i;
+    char *tmp;
+    int length;
 
     if (argc == 3) {
 
@@ -33,12 +40,12 @@ int main (int argc, char *argv[]) {
      *   - REG_NEWLINE: Change the handling of newline character.
      *
      **/
-    compile_status = regcomp(&regex, pattern, cflags);
+    regcomp_status = regcomp(&regex, pattern, cflags);
     printf("Pattern: %s\nTarget: %s\n", pattern, target);
 
-    if (compile_status) {
+    if (regcomp_status) {
     
-        regerror(compile_status, &regex, error_message, 8);
+        regerror(regcomp_status, &regex, error_message, 8);
         printf("Regex Error Compiling %s : %s\n", pattern, error_message);
         return -1;
     }
@@ -69,11 +76,36 @@ int main (int argc, char *argv[]) {
      * then regexec() will ignore the 'matchptr' argument.
      *
      **/
-    regexec(&regex, target, nmatch, subex, eflags);
+    regexec_status = regexec(&regex, target, nmatch, subex, eflags);
 
-    //  TODO: Show real matching example
-    //  subex[i].rm_so, subex[i].rm_eo
+    if (regexec_status) {
 
+        printf("NO MORE MATCHES\n");
+        return -1;
+    }
+
+    for (i=0; i < nmatch; i++) {
+    
+        if (subex[i].rm_so == -1 || length < 0)
+            continue;
+
+        length = subex[i].rm_eo - subex[i].rm_so;
+        tmp = (char *)malloc(sizeof(char) * (length+1));
+        tmp[length] = '\0';
+
+        /* strncpy() will not null-terminate if tmp is not large enough. */
+        strncpy(tmp, &target[subex[i].rm_so], length);
+
+        printf("$%d: %d~%d, %s", i, subex[i].rm_so, subex[i].rm_eo - 1, tmp);
+
+        if (i == 0)
+            printf(" (%s)\n", "Matched Part");
+        else
+            printf(" (%s \\%d)\n", "Subexpression", i);
+
+        free(tmp);
+    }
+    
     /* Free the storage the compiled regex uses.
      * We should always free the space in a regex_t structure 
      * before using the structure to compile another regex.
