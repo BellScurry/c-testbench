@@ -71,6 +71,7 @@ int main (int argc, char *argv[]) {
      **/
     regexec(&regex, target, nmatch, subex, eflags);
 
+    //  TODO: Show real matching example
     //  subex[i].rm_so, subex[i].rm_eo
 
     /* Free the storage the compiled regex uses.
